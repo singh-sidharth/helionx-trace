@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "module": "NodeNext",
+    "target": "ES2020",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2020"],
+    "types": ["node"],
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "noUncheckedSideEffectImports": true,
+    "moduleDetection": "force",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "ignoreDeprecations": "6.0"
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["dist", "node_modules"]
+}

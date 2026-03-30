@@ -1,0 +1,40 @@
+{
+  "name": "@helionx-trace/ingest",
+  "version": "1.0.0",
+  "description": "TypeScript ingestor client for Helionx Trace",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "dev": "tsup src/index.ts --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "helionx",
+    "trace",
+    "ingest",
+    "events"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.2"
+  }
+}

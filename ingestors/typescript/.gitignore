@@ -1,0 +1,26 @@
+# macOS
+.DS_Store
+
+# env
+.env
+.env.*
+
+# Node
+node_modules/
+dist/
+build/
+coverage/
+npm-debug.log*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Go
+bin/
+
+# IDE
+.vscode/
+.idea/
