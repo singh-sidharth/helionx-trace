@@ -326,3 +326,9 @@ MVP working:
 Next focus: usability + persistence
 
 ---
+
+## 📄 License
+
+MIT
+
+---
