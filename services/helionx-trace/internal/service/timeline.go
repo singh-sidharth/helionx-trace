@@ -26,6 +26,9 @@ func (s *TimelineService) Build(requestID string) (model.TimelineResponse, error
 	})
 
 	steps := make([]model.TimelineStep, 0, len(events))
+	// NOTE: 'seen' tracks occurrences of (service|eventType).
+	// Currently unused, but reserved for future features like deduplication,
+	// retry pattern detection, or step aggregation.
 	seen := make(map[string]int)
 
 	var prev *model.Event
@@ -36,6 +39,8 @@ func (s *TimelineService) Build(requestID string) (model.TimelineResponse, error
 	finalSucceeded := false
 
 	for _, e := range events {
+		// Increment occurrence count for this (service|eventType) combination.
+		// Not used yet, but kept intentionally for future logic extensions.
 		key := e.Service + "|" + e.EventType
 		seen[key]++
 
