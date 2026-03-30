@@ -19,7 +19,8 @@
     "moduleDetection": "force",
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "ignoreDeprecations": "6.0"
+    // Keep this to suppress deprecation warnings for NodeNext/ESM setup (TS >=5.0 requires "5.0" value)
+    "ignoreDeprecations": "5.0"
   },
   "include": ["src/**/*.ts"],
   "exclude": ["dist", "node_modules"]
