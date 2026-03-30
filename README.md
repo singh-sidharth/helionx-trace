@@ -1,6 +1,13 @@
 # Helionx Trace (MVP)
 
-Event debugging system for reconstructing request timelines across services.
+Helionx Trace is an event protocol and debugging platform for reconstructing request timelines across distributed systems.
+
+## Repository Structure
+
+- `services/helionx-trace` → Go backend service (event ingestion + timeline reconstruction)
+- `ingestors/typescript` → TypeScript client (coming soon)
+- `ingestors/python` → Python client (coming soon)
+- `examples/` → integration examples
 
 ## 🚀 Debug distributed requests in one call
 
@@ -15,6 +22,7 @@ Helionx Trace gives you:
 ## ⚡ Quick Demo
 
 ```bash
+cd services/helionx-trace
 go mod tidy
 # run server (in-memory mode)
 STORE_BACKEND=memory go run ./cmd/server
@@ -150,6 +158,7 @@ Default: in-memory (no persistence)
 Use Postgres for persistence across restarts.
 
 ```bash
+cd services/helionx-trace
 go mod tidy
 STORE_BACKEND=memory go run ./cmd/server
 ```
@@ -167,6 +176,7 @@ make up
 Run the server using Postgres:
 
 ```bash
+cd services/helionx-trace
 STORE_BACKEND=postgres go run ./cmd/server
 ```
 
