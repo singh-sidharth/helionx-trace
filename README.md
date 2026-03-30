@@ -1,8 +1,49 @@
 # Helionx Trace (MVP)
 
-Helionx Trace is a lightweight event-debugging backend that reconstructs request flows across services and explains failures clearly.
+## 🚀 Debug distributed requests in one call
 
-Instead of digging through logs across multiple systems, Helionx Trace gives you a **single timeline view** of what happened, where it failed, and how it recovered.
+Most systems require digging through logs across multiple services.
+
+Helionx Trace gives you:
+
+> A single timeline showing what happened, where it failed, and how it recovered.
+
+---
+
+## ⚡ Quick Demo
+
+```bash
+go mod tidy
+STORE_BACKEND=memory go run ./cmd/server
+./scripts/test.sh add
+./scripts/test.sh summary
+```
+
+---
+
+## 🧾 Example Output (Human Readable)
+
+```text
+Request ID: req-2
+Status: SUCCESS_AFTER_RETRY
+Failure Point: payment.charge
+Retry Count: 1
+Total Duration: 8.093s
+
+Timeline
+--------
+1. [api] request.received -> SUCCESS
+2. [order] order.created -> SUCCESS (+1.015s)
+3. [payment] charge -> FAILED (+2.024s) error=stripe timeout
+4. [payment] charge -> RETRY (+3.028s) [retry]
+5. [payment] charge -> SUCCESS (+2.025s)
+```
+
+---
+
+## 🧩 How it works
+
+Client → API → EventStore → Timeline Engine → Summary Output
 
 ---
 
@@ -14,16 +55,6 @@ Instead of digging through logs across multiple systems, Helionx Trace gives you
 - Detect failures and retries
 - Compute latency between steps
 - Provide a summarized debugging view
-
----
-
-## 🧠 Core Idea
-
-Most systems today give you logs.
-
-Helionx Trace gives you:
-
-> “What happened, where it failed, and how it recovered”
 
 ---
 
