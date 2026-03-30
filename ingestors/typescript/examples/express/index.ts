@@ -1,23 +1,28 @@
-import express from "express";
-import { createHelionxClient } from "../../dist/index.js";
+import express, { type Request, type Response } from "express";
+import {
+  createHelionxExpressMiddleware,
+  type HelionxRequestContext,
+} from "../../dist/index.js";
 
 const app = express();
 app.use(express.json());
 
-const client = createHelionxClient({
-  endpoint: "http://localhost:8080",
-});
+app.use(
+  createHelionxExpressMiddleware({
+    endpoint: "http://localhost:8080",
+    service: "express-service",
+  }),
+);
 
-app.post("/test", async (req, res) => {
+type HelionxExpressRequest = Request & {
+  helionx?: HelionxRequestContext;
+};
+
+app.post("/test", async (req: HelionxExpressRequest, res: Response) => {
   try {
-    await client.ingest({
-      requestId: "req-1",
-      service: "express-service",
-      eventType: "http.request",
-      status: "SUCCESS",
-      metadata: {
-        path: "/test",
-      },
+    await req.helionx?.success("handler.completed", {
+      path: "/test",
+      method: req.method,
     });
 
     res.json({ ok: true });
