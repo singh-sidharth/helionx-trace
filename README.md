@@ -1,5 +1,7 @@
 # Helionx Trace (MVP)
 
+Event debugging system for reconstructing request timelines across services.
+
 ## 🚀 Debug distributed requests in one call
 
 Most systems require digging through logs across multiple services.
@@ -14,6 +16,7 @@ Helionx Trace gives you:
 
 ```bash
 go mod tidy
+# run server (in-memory mode)
 STORE_BACKEND=memory go run ./cmd/server
 ./scripts/test.sh add
 ./scripts/test.sh summary
@@ -39,11 +42,13 @@ Timeline
 5. [payment] charge -> SUCCESS (+2.025s)
 ```
 
+This output is generated from raw event logs in a single API call.
+
 ---
 
 ## 🧩 How it works
 
-Client → API → EventStore → Timeline Engine → Summary Output
+Client → Event Ingestion API → EventStore → Timeline Reconstruction → Failure Analysis → Summary Output
 
 ---
 
@@ -62,7 +67,7 @@ Client → API → EventStore → Timeline Engine → Summary Output
 
 ### Health
 
-```
+```text
 GET /health
 ```
 
@@ -70,7 +75,7 @@ GET /health
 
 ### Ingest Event
 
-```
+```text
 POST /events
 ```
 
@@ -92,7 +97,7 @@ Example:
 
 ### Debug Timeline
 
-```
+```text
 GET /debug/{requestId}
 ```
 
@@ -114,7 +119,7 @@ Example Response:
 
 ### Debug Summary (Human Readable)
 
-```
+```text
 GET /debug/{requestId}/summary
 ```
 
@@ -141,6 +146,8 @@ Timeline
 ## 🧪 Local Setup
 
 Default: in-memory (no persistence)
+
+Use Postgres for persistence across restarts.
 
 ```bash
 go mod tidy
@@ -246,6 +253,14 @@ To:
 
 ---
 
+## ⚖️ Compared to logs and tracing
+
+- Logs → raw, unstructured, hard to correlate
+- Tracing → requires instrumentation and setup
+- Helionx Trace → works on events and reconstructs failures automatically
+
+---
+
 ## 📌 What Helionx Trace Answers
 
 - Where did the request fail?
@@ -257,6 +272,7 @@ To:
 
 ## 🛠️ Next Improvements
 
+- [ ] Request-level metrics (latency distribution, retry rates, failure patterns)
 - [x] Docker Compose (Postgres) + init.sql
 - [x] Human-readable summary output
 - [ ] Better retry detection logic
@@ -267,22 +283,41 @@ To:
 
 ## 🧪 Example Debug Story
 
-Scenario:
-Payment fails due to a Stripe timeout, system retries and eventually succeeds.
+### Scenario
 
-Helionx Trace Output:
+A request flows through API → Order → Payment.
+
+The payment service fails due to a Stripe timeout, triggers a retry, and eventually succeeds.
+
+---
+
+### What usually happens (without Helionx Trace)
+
+- Engineers search logs across multiple services
+- Correlating events takes several minutes
+- Retry behavior is hard to reconstruct manually
+
+---
+
+### What Helionx Trace shows instantly
+
 - Failure detected at `payment.charge`
 - Retry triggered after ~3 seconds
 - Successful recovery after retry
 - Total request duration ~8 seconds
 
-This reduces debugging from minutes of log searching to a single API call.
+---
+
+### Outcome
+
+Debugging is reduced from minutes of log searching to a single API call.
 
 ---
 
 ## 🧱 Status
 
 MVP working:
+
 - ingestion ✅
 - timeline reconstruction ✅
 - failure detection ✅
