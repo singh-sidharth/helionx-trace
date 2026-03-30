@@ -5,8 +5,8 @@ Helionx Trace is an event protocol and debugging platform for reconstructing req
 ## Repository Structure
 
 - `services/helionx-trace` → Go backend service (event ingestion + timeline reconstruction)
-- `ingestors/typescript` → TypeScript client (coming soon)
-- `ingestors/python` → Python client (coming soon)
+- `ingestors/typescript` → TypeScript SDK (Express middleware + client ingestion)
+- `ingestors/python` → Python SDK (planned)
 - `examples/` → integration examples
 
 ## 🚀 Debug distributed requests in one call
@@ -57,6 +57,22 @@ This output is generated from raw event logs in a single API call.
 ## 🧩 How it works
 
 Client → Event Ingestion API → EventStore → Timeline Reconstruction → Failure Analysis → Summary Output
+
+---
+
+## 🔌 Ingestion via SDKs
+
+Helionx Trace provides lightweight SDKs to send events automatically from applications.
+
+Example capabilities (TypeScript SDK):
+
+- Express middleware to capture request lifecycle (STARTED, SUCCESS, FAILED)
+- Automatic request ID generation or propagation (supports existing headers)
+- Client for sending structured events to Helionx backend
+
+See:
+- `ingestors/typescript`
+- `examples/`
 
 ---
 
